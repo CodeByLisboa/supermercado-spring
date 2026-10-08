@@ -3,6 +3,7 @@ package supermercado.web;
 import jakarta.servlet.http.HttpSession;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Function;
 import supermercado.modelo.CarrinhoDeCompras;
 
 /**
@@ -21,17 +22,32 @@ public final class SessaoDoVisitante {
     }
 
     public static CarrinhoDeCompras carrinho(HttpSession sessao) {
-        CarrinhoDeCompras carrinho = (CarrinhoDeCompras) sessao.getAttribute(CARRINHO);
-        if (carrinho == null) {
-            carrinho = new CarrinhoDeCompras();
-            sessao.setAttribute(CARRINHO, carrinho);
+        synchronized (SessaoDoVisitante.class) {
+            CarrinhoDeCompras carrinho = (CarrinhoDeCompras) sessao.getAttribute(CARRINHO);
+            if (carrinho == null) {
+                carrinho = new CarrinhoDeCompras();
+                sessao.setAttribute(CARRINHO, carrinho);
+            }
+            return carrinho;
         }
-        return carrinho;
     }
 
-    /** Grava de novo o carrinho na sessão depois de uma alteração. */
-    public static void atualizar(HttpSession sessao, CarrinhoDeCompras carrinho) {
-        sessao.setAttribute(CARRINHO, carrinho);
+    /**
+     * Executa uma operação no carrinho do visitante, uma de cada vez.
+     *
+     * <p>O {@link CarrinhoDeCompras} não foi feito para ser usado por duas
+     * threads ao mesmo tempo, e o mesmo visitante pode mandar duas
+     * requisições quase juntas (dois cliques, duas abas). A trava é o próprio
+     * objeto do carrinho, então visitantes diferentes não esperam um pelo
+     * outro. Depois da operação o carrinho é gravado de novo na sessão.</p>
+     */
+    public static <T> T comCarrinho(HttpSession sessao, Function<CarrinhoDeCompras, T> operacao) {
+        CarrinhoDeCompras carrinho = carrinho(sessao);
+        synchronized (carrinho) {
+            T resultado = operacao.apply(carrinho);
+            sessao.setAttribute(CARRINHO, carrinho);
+            return resultado;
+        }
     }
 
     public static void registrarPedido(HttpSession sessao, int numero) {

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import supermercado.excecao.PedidoNaoEncontradoException;
-import supermercado.modelo.CarrinhoDeCompras;
 import supermercado.modelo.Pedido;
 import supermercado.servico.DadosDoCliente;
 import supermercado.servico.LojaService;
@@ -41,10 +40,9 @@ public class PedidoController {
     /** Fecha o pedido com o carrinho da sessão. Responde 201 com o pedido criado. */
     @PostMapping
     public ResponseEntity<PedidoDTO> fechar(@RequestBody Requisicoes.FecharPedido corpo, HttpSession sessao) {
-        CarrinhoDeCompras carrinho = SessaoDoVisitante.carrinho(sessao);
-        Pedido pedido = loja.fecharPedido(carrinho, new DadosDoCliente(corpo.nome(), corpo.cpf(), corpo.email(),
-                corpo.celular(), Boolean.TRUE.equals(corpo.consentimento())));
-        SessaoDoVisitante.atualizar(sessao, carrinho);
+        DadosDoCliente dados = new DadosDoCliente(corpo.nome(), corpo.cpf(), corpo.email(), corpo.celular(),
+                Boolean.TRUE.equals(corpo.consentimento()));
+        Pedido pedido = SessaoDoVisitante.comCarrinho(sessao, carrinho -> loja.fecharPedido(carrinho, dados));
         SessaoDoVisitante.registrarPedido(sessao, pedido.getNumero());
         return ResponseEntity.created(URI.create("/api/pedidos/" + pedido.getNumero())).body(PedidoDTO.de(pedido));
     }

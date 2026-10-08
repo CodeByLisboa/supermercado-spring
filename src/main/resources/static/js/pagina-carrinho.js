@@ -68,17 +68,51 @@
       entrada.setAttribute("aria-invalid", String(Boolean(mensagem)));
     }
 
+    /*
+     * Uma alteração de cada vez: se a pessoa clicar no + várias vezes
+     * enquanto a primeira requisição ainda está a caminho, os cliques do
+     * meio são juntados e só a última quantidade é enviada depois. Assim as
+     * requisições não chegam fora de ordem ao servidor e a tela e o
+     * carrinho do servidor terminam com o mesmo valor.
+     */
+    var enviando = false;
+    var pendente = null;
+
+    function enviar(valor) {
+      enviando = true;
+      api.carrinho.alterar(item.codigo, valor)
+        .then(function (carrinho) {
+          if (pendente !== null && pendente !== valor) {
+            var proximo = pendente;
+            pendente = null;
+            enviar(proximo);
+            return;
+          }
+          pendente = null;
+          enviando = false;
+          var atualizado = carrinho.itens.find(function (i) { return i.codigo === item.codigo; });
+          if (atualizado) {
+            subtotal.textContent = u.moeda(u.centavos(atualizado.subtotal));
+            entrada.value = String(atualizado.quantidade);
+          }
+          atualizarResumo(carrinho);
+        })
+        .catch(function (falha) {
+          pendente = null;
+          enviando = false;
+          mostrarErro(falha.message);
+        });
+    }
+
     function aplicar(valor) {
       var mensagem = validacao.quantidade(valor);
       mostrarErro(mensagem);
       if (mensagem) return;
-      api.carrinho.alterar(item.codigo, valor)
-        .then(function (carrinho) {
-          var atualizado = carrinho.itens.find(function (i) { return i.codigo === item.codigo; });
-          if (atualizado) subtotal.textContent = u.moeda(u.centavos(atualizado.subtotal));
-          atualizarResumo(carrinho);
-        })
-        .catch(function (falha) { mostrarErro(falha.message); });
+      if (enviando) {
+        pendente = valor;
+        return;
+      }
+      enviar(valor);
     }
 
     seletor.querySelectorAll("[data-passo]").forEach(function (botao) {
