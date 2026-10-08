@@ -7,10 +7,11 @@ import supermercado.modelo.Pedido;
 /**
  * Acesso aos dados de pedidos (padrão DAO - Data Access Object).
  *
- * <p>As regras de negócio dependem só desta interface. Hoje os pedidos ficam
- * em memória ({@link PedidoDAOMemoria}); na versão web basta criar um
- * {@code PedidoDAOJdbc} que grave no banco de dados, sem alterar o
- * {@code PedidoService}.</p>
+ * <p>As regras de negócio dependem só desta interface. Há duas
+ * implementações: {@link PedidoDAOMemoria}, usada nos testes unitários, e
+ * {@link PedidoDAOJdbc}, que grava no banco de dados no sistema web. A troca
+ * de uma pela outra não exigiu nenhuma mudança no {@code PedidoService}
+ * (princípio da inversão de dependência).</p>
  */
 public interface PedidoDAO {
 
