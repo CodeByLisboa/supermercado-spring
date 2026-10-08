@@ -3,6 +3,8 @@ package supermercado.web;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,11 +25,13 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 /**
  * Testes da API REST da loja (CT-A01 a CT-A14), com o servidor simulado
  * pelo MockMvc e o banco H2 em memória. Cada teste usa uma sessão nova,
- * como se fosse um visitante diferente.
+ * como se fosse um visitante diferente. Requisições que alteram dados levam
+ * o token CSRF ({@code csrf()}), como o front-end faz.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,18 +47,24 @@ class ApiDaLojaTest {
 
     MockHttpSession sessao;
 
+    /** Operador logado, para as rotas da área do operador. */
+    private static RequestPostProcessor operador() {
+        return user("operador").roles("OPERADOR");
+    }
+
     @BeforeEach
     void novoVisitante() {
         sessao = new MockHttpSession();
     }
 
     private ResultActions adicionar(int codigo, int quantidade) throws Exception {
-        return mvc.perform(post("/api/carrinho/itens").session(sessao).contentType(MediaType.APPLICATION_JSON)
+        return mvc.perform(post("/api/carrinho/itens").session(sessao).with(csrf()).contentType(MediaType.APPLICATION_JSON)
                 .content("{\"codigo\": " + codigo + ", \"quantidade\": " + quantidade + "}"));
     }
 
     private ResultActions fecharPedido(String corpo) throws Exception {
-        return mvc.perform(post("/api/pedidos").session(sessao).contentType(MediaType.APPLICATION_JSON).content(corpo));
+        return mvc.perform(post("/api/pedidos").session(sessao).with(csrf()).contentType(MediaType.APPLICATION_JSON)
+                .content(corpo));
     }
 
     @Test
@@ -106,12 +116,12 @@ class ApiDaLojaTest {
     void alterarERemover() throws Exception {
         adicionar(1, 1);
         adicionar(2, 2);
-        mvc.perform(put("/api/carrinho/itens/2").session(sessao).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(put("/api/carrinho/itens/2").session(sessao).with(csrf()).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"quantidade\": 5}"))
                 .andExpect(jsonPath("$.subtotal").value(113.94))
                 .andExpect(jsonPath("$.desconto").value(10.00))
                 .andExpect(jsonPath("$.total").value(103.94));
-        mvc.perform(delete("/api/carrinho/itens/1").session(sessao))
+        mvc.perform(delete("/api/carrinho/itens/1").session(sessao).with(csrf()))
                 .andExpect(jsonPath("$.itens", hasSize(1)))
                 .andExpect(jsonPath("$.total").value(99.95));
     }
@@ -178,10 +188,10 @@ class ApiDaLojaTest {
     void cancelarDuasVezes() throws Exception {
         adicionar(1, 1);
         String local = fecharPedido(CLIENTE_VALIDO).andReturn().getResponse().getHeader("Location");
-        mvc.perform(post(local + "/cancelamento").session(sessao))
+        mvc.perform(post(local + "/cancelamento").with(csrf()).with(operador()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.situacao").value("CANCELADO"));
-        mvc.perform(post(local + "/cancelamento").session(sessao))
+        mvc.perform(post(local + "/cancelamento").with(csrf()).with(operador()))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(jsonPath("$.mensagem", containsString("já está cancelado")));
     }
@@ -189,7 +199,7 @@ class ApiDaLojaTest {
     @Test
     @DisplayName("CT-A11 - pedido ou endereço inexistente responde 404, não 500")
     void inexistente_404() throws Exception {
-        mvc.perform(get("/api/pedidos/999999")).andExpect(status().isNotFound())
+        mvc.perform(get("/api/pedidos/999999").with(operador())).andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.mensagem").value("Pedido nº 999999 não encontrado."));
         mvc.perform(get("/api/nao-existe")).andExpect(status().isNotFound());
         mvc.perform(get("/api/pedidos/abc")).andExpect(status().isBadRequest());
@@ -198,13 +208,13 @@ class ApiDaLojaTest {
     @Test
     @DisplayName("CT-A12 - pedidos de exemplo e resumo de vendas (CT-M12)")
     void exemplosEResumo() throws Exception {
-        mvc.perform(post("/api/pedidos/exemplos")).andExpect(status().isCreated())
+        mvc.perform(post("/api/pedidos/exemplos").with(csrf()).with(operador())).andExpect(status().isCreated())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].cliente").value("João Silva"))
                 .andExpect(jsonPath("$[2].cliente").value("Carlos Pereira"));
-        mvc.perform(get("/api/pedidos").param("situacao", "FECHADO"))
+        mvc.perform(get("/api/pedidos").param("situacao", "FECHADO").with(operador()))
                 .andExpect(jsonPath("$[0].numero").isNumber());
-        mvc.perform(get("/api/pedidos/resumo"))
+        mvc.perform(get("/api/pedidos/resumo").with(operador()))
                 .andExpect(jsonPath("$.fechados").isNumber())
                 .andExpect(jsonPath("$.totalVendido").isNumber());
     }
@@ -222,7 +232,7 @@ class ApiDaLojaTest {
     @Test
     @DisplayName("CT-A14 - JSON mal formado responde 400")
     void jsonMalFormado_400() throws Exception {
-        mvc.perform(post("/api/carrinho/itens").session(sessao).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(post("/api/carrinho/itens").session(sessao).with(csrf()).contentType(MediaType.APPLICATION_JSON)
                         .content("{codigo: 1"))
                 .andExpect(status().isBadRequest());
     }
