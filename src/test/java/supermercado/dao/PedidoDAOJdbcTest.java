@@ -129,4 +129,19 @@ class PedidoDAOJdbcTest {
         assertThat(jdbc.queryForObject("SELECT total FROM pedido WHERE numero = ?",
                 java.math.BigDecimal.class, pedido.getNumero())).isEqualByComparingTo("99.95");
     }
+
+    @Test
+    @DisplayName("CT-I10 - pedido antigo mantém o nome do cliente mesmo se o CPF comprar de novo com outro nome")
+    void pedidoAntigo_mantemONomeDoMomentoDaCompra() {
+        Pedido doJoao = new Pedido(pedidos.proximoNumero(), joao, itensDoCenarioOriginal(), new SemDesconto());
+        pedidos.salvar(doJoao);
+        Cliente mesmoCpfOutroNome = new Cliente("Carlos Pereira", "529.982.247-25", "carlos@email.com");
+        pedidos.salvar(new Pedido(pedidos.proximoNumero(), mesmoCpfOutroNome, itensDoCenarioOriginal(),
+                new SemDesconto()));
+
+        Pedido lido = pedidos.buscarPorNumero(doJoao.getNumero()).orElseThrow();
+
+        assertThat(lido.getCliente().getNome()).isEqualTo("João Silva");
+        assertThat(lido.getCliente().getEmail()).isEqualTo("joao@email.com");
+    }
 }

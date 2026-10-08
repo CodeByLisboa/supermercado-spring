@@ -24,18 +24,18 @@ import supermercado.modelo.StatusPedido;
  * o {@code PedidoService} não sabe se os pedidos estão na memória ou no
  * banco.</p>
  *
- * <p>Tabelas: {@code pedido} (cabeçalho), {@code item_pedido} (uma linha por
+ * <p>Tabelas: {@code pedido} (cabeçalho, com nome e e-mail do cliente
+ * copiados no momento da compra), {@code item_pedido} (uma linha por
  * produto, com nome e preço copiados no momento da compra), {@code cliente}
- * e {@code contador} (numeração). Os métodos que gravam devem ser chamados
+ * (cadastro atualizado) e {@code contador} (numeração). Os métodos que gravam devem ser chamados
  * dentro de uma transação (ver {@code LojaService}).</p>
  */
 @Repository
 public class PedidoDAOJdbc implements PedidoDAO {
 
     private static final String SELECT_PEDIDO =
-            "SELECT p.numero, p.data_hora, p.desconto, p.descricao_desconto, p.situacao,"
-            + " c.cpf, c.nome, c.email, c.celular"
-            + " FROM pedido p JOIN cliente c ON c.cpf = p.cliente_cpf";
+            "SELECT numero, data_hora, desconto, descricao_desconto, situacao,"
+            + " cliente_cpf, cliente_nome, cliente_email, cliente_celular FROM pedido";
 
     private static final String SELECT_ITENS =
             "SELECT pedido_numero, produto_codigo, nome_produto, unidade, preco_unitario, quantidade"
@@ -76,9 +76,12 @@ public class PedidoDAOJdbc implements PedidoDAO {
 
     private void inserir(Pedido pedido) {
         salvarCliente(pedido.getCliente());
-        jdbc.update("INSERT INTO pedido (numero, data_hora, cliente_cpf, subtotal, desconto,"
-                        + " descricao_desconto, total, situacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                pedido.getNumero(), Timestamp.valueOf(pedido.getDataHora()), pedido.getCliente().getCpf(),
+        Cliente cliente = pedido.getCliente();
+        jdbc.update("INSERT INTO pedido (numero, data_hora, cliente_cpf, cliente_nome, cliente_email,"
+                        + " cliente_celular, subtotal, desconto, descricao_desconto, total, situacao)"
+                        + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                pedido.getNumero(), Timestamp.valueOf(pedido.getDataHora()), cliente.getCpf(),
+                cliente.getNome(), cliente.getEmail(), cliente.getCelular(),
                 pedido.getSubtotal(), pedido.getDesconto(), pedido.getDescricaoDesconto(),
                 pedido.getTotal(), pedido.getStatus().name());
 
@@ -107,7 +110,7 @@ public class PedidoDAOJdbc implements PedidoDAO {
     public Optional<Pedido> buscarPorNumero(int numero) {
         List<ItemCarrinho> itens = jdbc.query(SELECT_ITENS + " WHERE pedido_numero = ? ORDER BY linha",
                 PedidoDAOJdbc::paraItem, numero);
-        return jdbc.query(SELECT_PEDIDO + " WHERE p.numero = ?",
+        return jdbc.query(SELECT_PEDIDO + " WHERE numero = ?",
                 (linha, n) -> paraPedido(linha, itens), numero).stream().findFirst();
     }
 
@@ -118,7 +121,7 @@ public class PedidoDAOJdbc implements PedidoDAO {
             itensPorPedido.computeIfAbsent(linha.getInt("pedido_numero"), n -> new ArrayList<>())
                     .add(paraItem(linha, 0));
         });
-        return jdbc.query(SELECT_PEDIDO + " ORDER BY p.numero",
+        return jdbc.query(SELECT_PEDIDO + " ORDER BY numero",
                 (linha, n) -> paraPedido(linha, itensPorPedido.get(linha.getInt("numero"))));
     }
 
@@ -129,8 +132,8 @@ public class PedidoDAOJdbc implements PedidoDAO {
     }
 
     private static Pedido paraPedido(ResultSet linha, List<ItemCarrinho> itens) throws SQLException {
-        Cliente cliente = new Cliente(linha.getString("nome"), linha.getString("cpf"),
-                linha.getString("email"), linha.getString("celular"));
+        Cliente cliente = new Cliente(linha.getString("cliente_nome"), linha.getString("cliente_cpf"),
+                linha.getString("cliente_email"), linha.getString("cliente_celular"));
         return Pedido.restaurar(linha.getInt("numero"), cliente, itens,
                 linha.getTimestamp("data_hora").toLocalDateTime(), linha.getBigDecimal("desconto"),
                 linha.getString("descricao_desconto"), StatusPedido.valueOf(linha.getString("situacao")));
