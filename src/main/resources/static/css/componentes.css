@@ -1,0 +1,443 @@
+/* ==========================================================================
+   componentes.css — peças reutilizadas em várias páginas
+   ========================================================================== */
+
+/* ---------- Botões ---------- */
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.1rem;
+  border: 2px solid var(--verde);
+  border-radius: 6px;
+  background: var(--papel);
+  color: var(--verde);
+  font-family: var(--fonte-titulo);
+  font-size: var(--t-base);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: var(--verde-claro);
+}
+
+.botao--principal {
+  background: var(--verde);
+  color: var(--papel);
+}
+
+.botao--principal:hover {
+  background: var(--verde-escuro);
+  border-color: var(--verde-escuro);
+}
+
+.botao--perigo {
+  border-color: var(--erro);
+  color: var(--erro);
+}
+
+.botao--perigo:hover {
+  background: var(--vermelho-claro);
+}
+
+.botao--perigo-cheio {
+  background: var(--erro);
+  border-color: var(--erro);
+  color: var(--papel);
+}
+
+.botao--perigo-cheio:hover {
+  background: #8f1d17;
+}
+
+.botao--largo {
+  width: 100%;
+}
+
+.botao[disabled],
+.botao[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.link-simples {
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  color: var(--cinza);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-simples:hover {
+  color: var(--erro);
+}
+
+/* ---------- Etiqueta de preço (elemento de destaque do guia visual) ---------- */
+
+.etiqueta {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.1rem;
+  padding: 0.3rem 0.8rem 0.35rem 1.6rem;
+  background: var(--amarelo);
+  color: var(--tinta);
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  line-height: 1;
+  clip-path: polygon(0.9rem 0, 100% 0, 100% 100%, 0.9rem 100%, 0 50%);
+}
+
+/* furo da etiqueta */
+.etiqueta::before {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--fundo);
+  transform: translateY(-50%);
+}
+
+.etiqueta__moeda {
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  margin-right: 0.15rem;
+}
+
+.etiqueta__inteiro {
+  font-size: 2.1rem;
+  letter-spacing: -0.02em;
+}
+
+.etiqueta__centavos {
+  font-size: 1.05rem;
+  margin-top: 0.15rem;
+}
+
+.etiqueta--grande .etiqueta__inteiro {
+  font-size: 3rem;
+}
+
+.etiqueta--grande .etiqueta__centavos {
+  font-size: 1.4rem;
+}
+
+.etiqueta--grande .etiqueta__moeda {
+  font-size: 1.1rem;
+  margin-top: 0.45rem;
+}
+
+/* ---------- Seletor de quantidade ---------- */
+
+.quantidade {
+  display: inline-flex;
+  align-items: stretch;
+  border: 2px solid var(--linha);
+  border-radius: 6px;
+  background: var(--papel);
+  overflow: hidden;
+}
+
+.quantidade button {
+  width: 2.5rem;
+  border: none;
+  background: var(--fundo);
+  color: var(--tinta);
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.quantidade button:hover {
+  background: var(--verde-claro);
+}
+
+.quantidade input {
+  width: 3rem;
+  border: none;
+  text-align: center;
+  font-family: var(--fonte-titulo);
+  font-size: var(--t-1);
+  font-weight: 700;
+  color: var(--tinta);
+  -moz-appearance: textfield;
+}
+
+.quantidade input::-webkit-outer-spin-button,
+.quantidade input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantidade--invalida {
+  border-color: var(--erro);
+}
+
+/* ---------- Campos de formulário ---------- */
+
+.campo {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 1.1rem;
+}
+
+.campo label {
+  font-weight: 600;
+}
+
+.campo__dica {
+  color: var(--cinza);
+  font-size: var(--t-menor);
+  margin: 0;
+}
+
+.campo input[type="text"],
+.campo input[type="password"],
+.campo input[type="email"],
+.campo input[type="tel"],
+.campo input[type="search"],
+.campo select {
+  width: 100%;
+  min-height: 2.9rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--linha);
+  border-radius: 6px;
+  background: var(--papel);
+  color: var(--tinta);
+  font: inherit;
+}
+
+.campo input:hover,
+.campo select:hover {
+  border-color: var(--cinza);
+}
+
+.campo input[aria-invalid="true"] {
+  border-color: var(--erro);
+  background: #fffafa;
+}
+
+.campo input[aria-invalid="false"] {
+  border-color: var(--verde);
+}
+
+.mensagem-erro {
+  margin: 0;
+  color: var(--erro);
+  font-weight: 600;
+  font-size: var(--t-menor);
+}
+
+.mensagem-erro:empty {
+  display: none;
+}
+
+.mensagem-erro:not(:empty)::before {
+  content: "! ";
+}
+
+/* No formulário, o espaço da mensagem fica reservado: assim a página não
+   "pula" quando um erro aparece ou some (e o clique no botão não se perde) */
+.formulario .mensagem-erro,
+.formulario .mensagem-erro:empty {
+  display: block;
+  min-height: 1.35em;
+}
+
+.formulario .campo {
+  margin-bottom: 0.5rem;
+}
+
+.caixa-marcar {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.caixa-marcar input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15rem;
+  accent-color: var(--verde);
+}
+
+/* ---------- Filtros por categoria ---------- */
+
+.categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.categoria {
+  min-height: 2.5rem;
+  padding: 0.35rem 0.9rem;
+  border: 2px solid var(--linha);
+  border-radius: 999px;
+  background: var(--papel);
+  color: var(--tinta);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.categoria:hover {
+  border-color: var(--verde);
+}
+
+.categoria[aria-pressed="true"] {
+  background: var(--verde);
+  border-color: var(--verde);
+  color: var(--papel);
+}
+
+/* ---------- Meta da oferta (quanto falta para o desconto) ---------- */
+
+.meta-oferta {
+  border: 2px dashed var(--vermelho);
+  border-radius: 6px;
+  padding: 0.75rem;
+  background: var(--vermelho-claro);
+}
+
+.meta-oferta p {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.meta-oferta--atingida {
+  border-style: solid;
+  border-color: var(--verde);
+  background: var(--verde-claro);
+}
+
+.barra {
+  height: 0.6rem;
+  border-radius: 999px;
+  background: var(--papel);
+  overflow: hidden;
+}
+
+.barra__preenchimento {
+  height: 100%;
+  width: 0;
+  background: var(--vermelho);
+  transition: width 0.3s ease-out;
+}
+
+.meta-oferta--atingida .barra__preenchimento {
+  background: var(--verde);
+}
+
+/* ---------- Avisos rápidos (toast) ---------- */
+
+.avisos {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  z-index: 30;
+  max-width: min(24rem, calc(100vw - 2rem));
+}
+
+.aviso {
+  background: var(--tinta);
+  color: var(--papel);
+  padding: 0.75rem 1rem;
+  border-left: 6px solid var(--amarelo);
+  border-radius: 4px;
+  font-weight: 500;
+  animation: aviso-entra 0.25s ease-out;
+}
+
+.aviso--erro {
+  border-left-color: var(--vermelho);
+}
+
+@keyframes aviso-entra {
+  from {
+    transform: translateY(0.75rem);
+    opacity: 0;
+  }
+}
+
+/* ---------- Estado vazio ---------- */
+
+.vazio {
+  background: var(--papel);
+  border: 2px dashed var(--linha);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.vazio p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vazio__icone {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Diálogo de confirmação ---------- */
+
+.dialogo {
+  border: none;
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 28rem;
+  width: calc(100vw - 2rem);
+  border-top: 6px solid var(--erro);
+  color: var(--tinta);
+}
+
+.dialogo::backdrop {
+  background: rgba(28, 36, 32, 0.55);
+}
+
+.dialogo__acoes {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
+/* ---------- Situação do pedido ---------- */
+
+.situacao {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: var(--t-menor);
+}
+
+.situacao--fechado {
+  background: var(--verde-claro);
+  color: var(--verde-escuro);
+}
+
+.situacao--cancelado {
+  background: var(--vermelho-claro);
+  color: var(--erro);
+  text-decoration: line-through;
+}

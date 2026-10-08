@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produtos | Mercado do Bairro</title>
+  <meta name="description" content="Escolha os produtos do Mercado do Bairro e monte seu carrinho.">
+  <link rel="icon" href="img/icone.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/paginas.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo__conteudo">
+      <a class="marca" href="index.html"><img src="img/icone.svg" alt="">Mercado do Bairro</a>
+      <nav aria-label="Principal">
+        <ul class="menu">
+          <li><a href="index.html" aria-current="page">Produtos</a></li>
+          <li><a href="carrinho.html">Carrinho <span class="contador" data-contador-carrinho>0</span><span class="somente-leitor"> itens</span></a></li>
+          <li><a href="pedidos.html">Área do operador</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <p class="faixa-oferta"><strong>R$ 10 de desconto</strong> nas compras a partir de R$ 100,00</p>
+
+  <main id="conteudo">
+    <section class="vitrine-topo" aria-labelledby="titulo-pagina">
+      <h1 id="titulo-pagina">O que vai pra sacola hoje?</h1>
+      <p>Escolha a quantidade, adicione ao carrinho e feche o pedido em três passos.</p>
+      <form class="busca" role="search" id="form-busca">
+        <div class="campo">
+          <label for="busca">Buscar produto</label>
+          <input type="search" id="busca" name="busca" placeholder="Ex.: arroz, café, banana" autocomplete="off">
+        </div>
+      </form>
+      <ul class="categorias" id="categorias" aria-label="Filtrar por categoria"></ul>
+    </section>
+
+    <p class="contagem" id="contagem" aria-live="polite"></p>
+    <ul class="gondola" id="gondola"></ul>
+
+    <div class="vazio" id="sem-resultado" hidden>
+      <div class="vazio__icone" aria-hidden="true">🔍</div>
+      <h2>Nenhum produto encontrado</h2>
+      <p>Tente outro nome ou volte para todas as categorias.</p>
+      <button type="button" class="botao" id="limpar-filtros">Mostrar todos os produtos</button>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>Mercado do Bairro é uma loja fictícia criada para o Projeto Integrador do curso Técnico em Desenvolvimento de Sistemas. Produtos e preços são exemplos.</p>
+  </footer>
+
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+
+  <script src="js/util.js"></script>
+  <script src="js/validacao.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/pagina-produtos.js"></script>
+</body>
+</html>

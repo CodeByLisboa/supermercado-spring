@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pedido | Mercado do Bairro</title>
+  <meta name="description" content="Cupom do pedido confirmado.">
+  <link rel="icon" href="img/icone.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/paginas.css">
+  <link rel="stylesheet" href="css/impressao.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo__conteudo">
+      <a class="marca" href="index.html"><img src="img/icone.svg" alt="">Mercado do Bairro</a>
+      <nav aria-label="Principal">
+        <ul class="menu">
+          <li><a href="index.html">Produtos</a></li>
+          <li><a href="carrinho.html">Carrinho <span class="contador" data-contador-carrinho>0</span><span class="somente-leitor"> itens</span></a></li>
+          <li><a href="pedidos.html">Área do operador</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <ol class="etapas" aria-label="Etapas do pedido" id="etapas">
+      <li class="feita">Carrinho</li>
+      <li class="feita">Identificação</li>
+      <li aria-current="step">Pedido confirmado</li>
+    </ol>
+    <div class="confirmacao" id="confirmacao"></div>
+  </main>
+
+  <footer class="rodape">
+    <p>Mercado do Bairro é uma loja fictícia criada para o Projeto Integrador do curso Técnico em Desenvolvimento de Sistemas. Produtos e preços são exemplos.</p>
+  </footer>
+
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+
+  <script src="js/util.js"></script>
+  <script src="js/validacao.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/pagina-pedido.js"></script>
+</body>
+</html>
