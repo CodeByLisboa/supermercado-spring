@@ -68,3 +68,12 @@ CREATE TABLE IF NOT EXISTS contador (
     valor  INT         NOT NULL,
     CONSTRAINT pk_contador PRIMARY KEY (nome)
 );
+
+-- Operadores da loja (área de gestão de pedidos). A senha fica só como hash BCrypt.
+CREATE TABLE IF NOT EXISTS operador (
+    login       VARCHAR(40)  NOT NULL,
+    nome        VARCHAR(80)  NOT NULL,
+    senha_hash  VARCHAR(100) NOT NULL,
+    ativo       BOOLEAN      NOT NULL,
+    CONSTRAINT pk_operador PRIMARY KEY (login)
+);
