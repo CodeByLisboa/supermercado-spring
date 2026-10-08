@@ -1,0 +1,13 @@
+# Saída do Maven
+target/
+# Banco H2 criado ao rodar o sistema (cada máquina tem o seu)
+dados/
+# Configurações locais do NetBeans e de outras IDEs
+nb-configuration.xml
+nbproject/private/
+.idea/
+*.iml
+.vscode/
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
