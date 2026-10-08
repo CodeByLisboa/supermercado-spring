@@ -31,7 +31,7 @@ public class CarrinhoController {
 
     @GetMapping
     public CarrinhoDTO ver(HttpSession sessao) {
-        return CarrinhoDTO.de(loja.resumir(SessaoDoVisitante.carrinho(sessao)));
+        return SessaoDoVisitante.comCarrinho(sessao, carrinho -> CarrinhoDTO.de(loja.resumir(carrinho)));
     }
 
     /** Corpo: {"codigo": 2, "quantidade": 3}. Produto repetido soma na mesma linha. */
@@ -40,28 +40,30 @@ public class CarrinhoController {
         if (corpo.codigo() == null) {
             throw new RegraNegocioException("Informe o código do produto.");
         }
-        CarrinhoDeCompras carrinho = SessaoDoVisitante.carrinho(sessao);
-        loja.adicionarAoCarrinho(carrinho, corpo.codigo(), quantidadeInformada(corpo.quantidade()));
-        SessaoDoVisitante.atualizar(sessao, carrinho);
-        return CarrinhoDTO.de(loja.resumir(carrinho));
+        int quantidade = quantidadeInformada(corpo.quantidade());
+        return SessaoDoVisitante.comCarrinho(sessao, carrinho -> {
+            loja.adicionarAoCarrinho(carrinho, corpo.codigo(), quantidade);
+            return CarrinhoDTO.de(loja.resumir(carrinho));
+        });
     }
 
     /** Corpo: {"quantidade": 5} */
     @PutMapping("/itens/{codigo}")
     public CarrinhoDTO alterar(@PathVariable int codigo, @RequestBody Requisicoes.AlterarQuantidade corpo,
                                HttpSession sessao) {
-        CarrinhoDeCompras carrinho = SessaoDoVisitante.carrinho(sessao);
-        loja.alterarQuantidade(carrinho, codigo, quantidadeInformada(corpo.quantidade()));
-        SessaoDoVisitante.atualizar(sessao, carrinho);
-        return CarrinhoDTO.de(loja.resumir(carrinho));
+        int quantidade = quantidadeInformada(corpo.quantidade());
+        return SessaoDoVisitante.comCarrinho(sessao, carrinho -> {
+            loja.alterarQuantidade(carrinho, codigo, quantidade);
+            return CarrinhoDTO.de(loja.resumir(carrinho));
+        });
     }
 
     @DeleteMapping("/itens/{codigo}")
     public CarrinhoDTO remover(@PathVariable int codigo, HttpSession sessao) {
-        CarrinhoDeCompras carrinho = SessaoDoVisitante.carrinho(sessao);
-        loja.removerDoCarrinho(carrinho, codigo);
-        SessaoDoVisitante.atualizar(sessao, carrinho);
-        return CarrinhoDTO.de(loja.resumir(carrinho));
+        return SessaoDoVisitante.comCarrinho(sessao, carrinho -> {
+            loja.removerDoCarrinho(carrinho, codigo);
+            return CarrinhoDTO.de(loja.resumir(carrinho));
+        });
     }
 
     private static int quantidadeInformada(Integer quantidade) {
