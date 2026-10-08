@@ -1,0 +1,513 @@
+/* ==========================================================================
+   paginas.css — disposição específica de cada página
+   ========================================================================== */
+
+/* ---------- Produtos (index.html) ---------- */
+
+.vitrine-topo {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.vitrine-topo h1 {
+  margin: 0;
+  max-width: 24ch;
+}
+
+.vitrine-topo p {
+  margin: 0;
+  color: var(--cinza);
+}
+
+.busca {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 36rem;
+}
+
+.busca .campo {
+  flex: 1;
+  margin: 0;
+}
+
+.contagem {
+  color: var(--cinza);
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+}
+
+.gondola {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr));
+  gap: 1.5rem 1rem;
+}
+
+.produto {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-bottom: 6px solid var(--verde); /* borda da prateleira */
+  border-radius: 8px 8px 2px 2px;
+}
+
+.produto__vitrine {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 2 / 1;
+  background: var(--fundo);
+  border-radius: 8px 8px 0 0;
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.produto__info {
+  padding: 0.85rem 0.9rem 0.25rem;
+  display: grid;
+  align-content: start;
+  gap: 0.15rem;
+}
+
+.produto__nome {
+  font-size: var(--t-1);
+  margin: 0;
+}
+
+.produto__unidade {
+  margin: 0 0 0.6rem;
+  color: var(--cinza);
+  font-size: var(--t-menor);
+}
+
+.produto__info .etiqueta {
+  justify-self: start;
+}
+
+/* No celular, o produto vira uma linha: foto à esquerda, dados à direita */
+@media (max-width: 34rem) {
+  .gondola {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .produto {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+  }
+
+  .produto__vitrine {
+    grid-row: 1 / span 3;
+    aspect-ratio: auto;
+    border-radius: 8px 0 0 0;
+    font-size: 2.6rem;
+  }
+
+  .produto__info,
+  .produto__compra,
+  .produto .mensagem-erro {
+    grid-column: 2;
+  }
+}
+
+.produto__compra {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  padding: 0.6rem 0.9rem 0.9rem;
+  flex-wrap: wrap;
+}
+
+.produto__compra .botao {
+  flex: 1;
+}
+
+.produto .mensagem-erro {
+  padding: 0 0.9rem 0.75rem;
+}
+
+/* ---------- Carrinho ---------- */
+
+.duas-colunas {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 56rem) {
+  .duas-colunas {
+    grid-template-columns: minmax(0, 1fr) 21rem;
+  }
+}
+
+.itens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  grid-template-areas:
+    "icone nome subtotal"
+    "icone acoes acoes";
+  gap: 0.5rem 0.9rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+.item + .item {
+  border-top: 1px dashed var(--linha);
+}
+
+.item__icone {
+  grid-area: icone;
+  font-size: 2.2rem;
+  text-align: center;
+  align-self: start;
+}
+
+.item__nome {
+  grid-area: nome;
+}
+
+.item__nome h2 {
+  font-size: var(--t-1);
+  margin: 0;
+}
+
+.item__nome p {
+  margin: 0;
+  color: var(--cinza);
+  font-size: var(--t-menor);
+}
+
+.item__subtotal {
+  grid-area: subtotal;
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: var(--t-1);
+  text-align: right;
+}
+
+.item__acoes {
+  grid-area: acoes;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.resumo {
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.resumo h2 {
+  margin: 0;
+}
+
+.valores {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 1rem;
+  margin: 0;
+}
+
+.valores dt {
+  color: var(--cinza);
+}
+
+.valores dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+.valores .desconto {
+  color: var(--vermelho);
+}
+
+.total {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: start;
+  border-top: 2px solid var(--tinta);
+  padding-top: 0.9rem;
+}
+
+.total span {
+  font-weight: 600;
+}
+
+/* ---------- Identificação ---------- */
+
+.formulario {
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.formulario fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.formulario legend {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: var(--t-2);
+  margin-bottom: 0.75rem;
+}
+
+.linha-campos {
+  display: grid;
+  gap: 0 1rem;
+}
+
+@media (min-width: 40rem) {
+  .linha-campos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.lista-resumo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+  font-size: var(--t-menor);
+}
+
+.lista-resumo li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* ---------- Pedido confirmado: cupom ---------- */
+
+.confirmacao {
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.confirmacao > p {
+  margin: 0;
+}
+
+.cupom {
+  --serrilha: 0.6rem;
+  width: min(100%, 26rem);
+  background: var(--papel);
+  padding: 1.5rem 1.4rem calc(1.5rem + var(--serrilha));
+  font-family: var(--fonte-cupom);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 1px 0 var(--linha), 0 10px 24px -14px rgba(28, 36, 32, 0.45);
+  /* borda serrilhada do papel do cupom */
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--serrilha) * 2) 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--serrilha) * 2) 100%;
+}
+
+.cupom__loja {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.cupom__numero {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.cupom p {
+  margin: 0;
+}
+
+.cupom hr {
+  border: none;
+  border-top: 1px dashed var(--tinta);
+  margin: 0.75rem 0;
+}
+
+.cupom__linha {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 1rem;
+}
+
+.cupom__detalhe {
+  color: var(--cinza);
+  font-size: 0.85rem;
+}
+
+.cupom__total {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.acoes-centro {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Pedidos (área do operador) ---------- */
+
+.filtros {
+  display: grid;
+  gap: 0 1rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 40rem) {
+  .filtros {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.resumo-linha {
+  font-weight: 500;
+  color: var(--cinza);
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--papel);
+  border: 1px solid var(--linha);
+}
+
+.tabela th,
+.tabela td {
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--linha);
+  vertical-align: middle;
+}
+
+.tabela th {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  background: var(--verde-claro);
+}
+
+.tabela .numero {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabela__acoes {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tabela__acoes .botao {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--t-menor);
+}
+
+/* Em telas pequenas, cada pedido vira um bloco com rótulos */
+@media (max-width: 47.99rem) {
+  .tabela thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .tabela,
+  .tabela tbody,
+  .tabela tr,
+  .tabela td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabela tr {
+    border-bottom: 6px solid var(--fundo);
+    padding: 0.5rem 0;
+  }
+
+  .tabela td {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 0.5rem;
+    border-bottom: none;
+    padding: 0.35rem 0.9rem;
+  }
+
+  .tabela td::before {
+    content: attr(data-rotulo);
+    font-weight: 600;
+    color: var(--cinza);
+  }
+
+  .tabela .numero {
+    text-align: left;
+  }
+}
+
+/* ---------- Login do operador (login.html) ---------- */
+
+.entrada {
+  max-width: 26rem;
+  margin: 1rem auto 0;
+}
+
+.entrada .formulario .campo input {
+  width: 100%;
+}
+
+.entrada__voltar {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* ---------- Operador logado (pedidos.html) ---------- */
+
+.cabecalho-operador {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.cabecalho-operador h1 {
+  margin-bottom: 0.25rem;
+}
+
+.operador-logado {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0;
+  color: var(--cinza);
+  font-weight: 500;
+}

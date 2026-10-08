@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrinho | Mercado do Bairro</title>
+  <meta name="description" content="Confira os produtos do seu carrinho e feche o pedido.">
+  <link rel="icon" href="img/icone.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/paginas.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo__conteudo">
+      <a class="marca" href="index.html"><img src="img/icone.svg" alt="">Mercado do Bairro</a>
+      <nav aria-label="Principal">
+        <ul class="menu">
+          <li><a href="index.html">Produtos</a></li>
+          <li><a href="carrinho.html" aria-current="page">Carrinho <span class="contador" data-contador-carrinho>0</span><span class="somente-leitor"> itens</span></a></li>
+          <li><a href="pedidos.html">Área do operador</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <p class="faixa-oferta"><strong>R$ 10 de desconto</strong> nas compras a partir de R$ 100,00</p>
+
+  <main id="conteudo">
+    <ol class="etapas" aria-label="Etapas do pedido">
+      <li aria-current="step">Carrinho</li>
+      <li>Identificação</li>
+      <li>Pedido confirmado</li>
+    </ol>
+    <h1>Seu carrinho</h1>
+    <div id="conteudo-carrinho"></div>
+  </main>
+
+  <footer class="rodape">
+    <p>Mercado do Bairro é uma loja fictícia criada para o Projeto Integrador do curso Técnico em Desenvolvimento de Sistemas. Produtos e preços são exemplos.</p>
+  </footer>
+
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+
+  <script src="js/util.js"></script>
+  <script src="js/validacao.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/pagina-carrinho.js"></script>
+</body>
+</html>

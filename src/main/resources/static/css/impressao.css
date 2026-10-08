@@ -1,0 +1,33 @@
+/* ==========================================================================
+   impressao.css — ao imprimir o pedido, sai só o cupom
+   ========================================================================== */
+
+@media print {
+  .topo,
+  .faixa-oferta,
+  .etapas,
+  .rodape,
+  .acoes-centro,
+  .confirmacao > h1,
+  .confirmacao > p,
+  .avisos,
+  .pular-conteudo {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  .cupom {
+    box-shadow: none;
+    -webkit-mask: none;
+    mask: none;
+    width: 80mm;
+    padding: 0;
+  }
+}

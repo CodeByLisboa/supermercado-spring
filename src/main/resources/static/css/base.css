@@ -1,0 +1,380 @@
+/* ==========================================================================
+   base.css — fontes, cores, tipografia e estrutura comum a todas as páginas
+   ========================================================================== */
+
+@font-face {
+  font-family: "Barlow";
+  src: url("../fontes/barlow-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fontes/barlow-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow";
+  src: url("../fontes/barlow-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: url("../fontes/barlow-semi-condensed-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: url("../fontes/barlow-semi-condensed-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: url("../fontes/barlow-semi-condensed-latin-800-normal.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
+/* Cores e medidas do guia visual (ver documento de wireframes) */
+:root {
+  --verde: #1e5b3f;          /* estrutura: topo, botões principais, borda da gôndola */
+  --verde-escuro: #144330;
+  --verde-claro: #e4efe8;
+  --amarelo: #ffd230;        /* etiqueta de preço */
+  --vermelho: #c8281e;       /* faixa de oferta e desconto */
+  --vermelho-claro: #fce9e7;
+  --fundo: #f2f4f1;
+  --papel: #ffffff;
+  --tinta: #1c2420;
+  --cinza: #5c6862;
+  --linha: #d3dbd5;
+  --erro: #b3261e;
+
+  --fonte-texto: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --fonte-titulo: "Barlow Semi Condensed", "Barlow", "Segoe UI", sans-serif;
+  --fonte-cupom: "Consolas", "Liberation Mono", "Courier New", monospace;
+
+  /* escala tipográfica (razão 1,25) */
+  --t-menor: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-1: 1.25rem;
+  --t-2: 1.5625rem;
+  --t-3: 1.953rem;
+  --t-4: 2.441rem;
+
+  --largura: 72rem;
+  --respiro: clamp(1rem, 3vw, 2rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--fundo);
+  color: var(--tinta);
+  font-family: var(--fonte-texto);
+  font-size: var(--t-base);
+  line-height: 1.5;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: var(--respiro);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fonte-titulo);
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: var(--t-4);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: var(--t-2);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: var(--t-1);
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: 68ch;
+}
+
+a {
+  color: var(--verde);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--tinta);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px var(--amarelo);
+}
+
+.somente-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.pular-conteudo {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--amarelo);
+  color: var(--tinta);
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  z-index: 20;
+}
+
+.pular-conteudo:focus {
+  top: 1rem;
+}
+
+/* ---------- Topo ---------- */
+
+.topo {
+  background: var(--verde);
+  color: var(--papel);
+}
+
+.topo__conteudo {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 0.75rem var(--respiro);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--papel);
+  text-decoration: none;
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: var(--t-2);
+  letter-spacing: -0.01em;
+}
+
+.marca img {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--papel);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 3px solid transparent;
+}
+
+.menu a:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+.menu a[aria-current="page"] {
+  border-bottom-color: var(--amarelo);
+}
+
+/* No celular, o menu ocupa a linha de baixo, sem quebrar os nomes */
+@media (max-width: 34rem) {
+  .topo nav {
+    width: 100%;
+  }
+
+  .menu {
+    justify-content: space-between;
+  }
+
+  .menu a {
+    white-space: nowrap;
+    padding: 0.4rem 0.2rem;
+  }
+}
+
+.contador {
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--amarelo);
+  color: var(--tinta);
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: var(--t-menor);
+  display: inline-grid;
+  place-items: center;
+}
+
+.contador--pulo {
+  animation: pulo 0.4s ease-out;
+}
+
+@keyframes pulo {
+  40% { transform: scale(1.35); }
+}
+
+.faixa-oferta {
+  max-width: none;
+  margin: 0;
+  background: var(--vermelho);
+  color: var(--papel);
+  text-align: center;
+  font-weight: 600;
+  padding: 0.5rem var(--respiro);
+}
+
+.faixa-oferta strong {
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: var(--t-1);
+}
+
+/* ---------- Etapas do pedido (sequência real: 1, 2, 3) ---------- */
+
+.etapas {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  counter-reset: etapa;
+  flex-wrap: wrap;
+}
+
+.etapas li {
+  counter-increment: etapa;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cinza);
+  font-weight: 500;
+}
+
+.etapas li::before {
+  content: counter(etapa);
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--linha);
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+}
+
+.etapas li + li::after {
+  order: -1;
+  content: "";
+  width: 1.5rem;
+  height: 2px;
+  background: var(--linha);
+}
+
+@media (max-width: 34rem) {
+  .etapas {
+    gap: 0.4rem 0.9rem;
+  }
+
+  .etapas li + li::after {
+    display: none;
+  }
+}
+
+.etapas [aria-current="step"] {
+  color: var(--tinta);
+  font-weight: 600;
+}
+
+.etapas [aria-current="step"]::before {
+  background: var(--verde);
+  border-color: var(--verde);
+  color: var(--papel);
+}
+
+.etapas .feita::before {
+  content: "✓";
+  background: var(--verde-claro);
+  border-color: var(--verde);
+  color: var(--verde);
+}
+
+/* ---------- Rodapé ---------- */
+
+.rodape {
+  border-top: 1px solid var(--linha);
+  background: var(--papel);
+  color: var(--cinza);
+  font-size: var(--t-menor);
+}
+
+.rodape p {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 1rem var(--respiro);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

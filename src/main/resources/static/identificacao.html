@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Identificação | Mercado do Bairro</title>
+  <meta name="description" content="Informe seus dados para confirmar o pedido.">
+  <link rel="icon" href="img/icone.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/paginas.css">
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="topo__conteudo">
+      <a class="marca" href="index.html"><img src="img/icone.svg" alt="">Mercado do Bairro</a>
+      <nav aria-label="Principal">
+        <ul class="menu">
+          <li><a href="index.html">Produtos</a></li>
+          <li><a href="carrinho.html">Carrinho <span class="contador" data-contador-carrinho>0</span><span class="somente-leitor"> itens</span></a></li>
+          <li><a href="pedidos.html">Área do operador</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <p class="faixa-oferta"><strong>R$ 10 de desconto</strong> nas compras a partir de R$ 100,00</p>
+
+  <main id="conteudo">
+    <ol class="etapas" aria-label="Etapas do pedido">
+      <li class="feita">Carrinho</li>
+      <li aria-current="step">Identificação</li>
+      <li>Pedido confirmado</li>
+    </ol>
+    <h1>Identificação</h1>
+    <p>Precisamos dos seus dados para registrar o pedido.</p>
+
+    <div class="duas-colunas" id="area-identificacao">
+      <form class="formulario" id="form-cliente" novalidate>
+        <fieldset>
+          <legend>Seus dados</legend>
+
+          <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" autocomplete="name" aria-describedby="erro-nome">
+            <p class="mensagem-erro" id="erro-nome"></p>
+          </div>
+
+          <div class="campo">
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" name="cpf" inputmode="numeric" maxlength="14" autocomplete="off" aria-describedby="dica-cpf erro-cpf">
+            <p class="campo__dica" id="dica-cpf">Digite só os números. A pontuação aparece sozinha.</p>
+            <p class="mensagem-erro" id="erro-cpf"></p>
+          </div>
+
+          <div class="linha-campos">
+            <div class="campo">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" autocomplete="email" aria-describedby="erro-email">
+              <p class="mensagem-erro" id="erro-email"></p>
+            </div>
+
+            <div class="campo">
+              <label for="celular">Celular (opcional)</label>
+              <input type="tel" id="celular" name="celular" inputmode="numeric" maxlength="15" autocomplete="tel-national" aria-describedby="erro-celular">
+              <p class="mensagem-erro" id="erro-celular"></p>
+            </div>
+          </div>
+
+          <div class="campo">
+            <div class="caixa-marcar">
+              <input type="checkbox" id="consentimento" name="consentimento" aria-describedby="erro-consentimento">
+              <label for="consentimento">Autorizo o uso do meu nome, CPF e e-mail somente para registrar e consultar este pedido.</label>
+            </div>
+            <p class="mensagem-erro" id="erro-consentimento"></p>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="botao botao--principal botao--largo">Confirmar pedido</button>
+        <p><a href="carrinho.html">Voltar ao carrinho</a></p>
+      </form>
+
+      <aside class="resumo" id="resumo-pedido" aria-labelledby="titulo-resumo">
+        <h2 id="titulo-resumo">Seu pedido</h2>
+      </aside>
+    </div>
+
+    <div class="vazio" id="carrinho-vazio" hidden>
+      <div class="vazio__icone" aria-hidden="true">🛒</div>
+      <h2>Seu carrinho está vazio</h2>
+      <p>Adicione produtos antes de informar seus dados.</p>
+      <a class="botao botao--principal" href="index.html">Ver produtos</a>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <p>Mercado do Bairro é uma loja fictícia criada para o Projeto Integrador do curso Técnico em Desenvolvimento de Sistemas. Produtos e preços são exemplos.</p>
+  </footer>
+
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+
+  <script src="js/util.js"></script>
+  <script src="js/validacao.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/pagina-identificacao.js"></script>
+</body>
+</html>
