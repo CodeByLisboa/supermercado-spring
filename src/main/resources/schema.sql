@@ -34,6 +34,10 @@ CREATE TABLE IF NOT EXISTS pedido (
     numero              INT           NOT NULL,
     data_hora           DATETIME      NOT NULL,
     cliente_cpf         CHAR(11)      NOT NULL,
+    -- cópia dos dados do cliente no momento da compra (o cadastro pode mudar depois)
+    cliente_nome        VARCHAR(120)  NOT NULL,
+    cliente_email       VARCHAR(120)  NOT NULL,
+    cliente_celular     VARCHAR(11),
     subtotal            DECIMAL(10,2) NOT NULL,
     desconto            DECIMAL(10,2) NOT NULL,
     descricao_desconto  VARCHAR(80)   NOT NULL,
