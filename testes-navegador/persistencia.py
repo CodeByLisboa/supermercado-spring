@@ -1,5 +1,5 @@
 """
-CT-M20 - os pedidos continuam no banco depois que o servidor é reiniciado.
+CT-M20 (RNF11) - os pedidos continuam no banco depois que o servidor é reiniciado.
 
 Uso em duas etapas (reinicie o servidor entre elas, sem apagar a pasta dados/):
     python persistencia.py antes

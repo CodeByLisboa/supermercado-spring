@@ -65,6 +65,15 @@ Em `application.properties`, `mercado.promocao.tipo` aceita `valor-minimo` (R$ 1
 - `testes-navegador/`: casos de teste manuais do plano (CT-M01 a CT-M21) executados num navegador
   de verdade contra o servidor rodando (instruções no início de `casos_de_teste.py`).
 
+Requisitos acrescentados na versão web, além dos RF01 a RF10, RN01 a RN11 e RNF01 a RNF09 do
+Documento de Projeto:
+
+| Requisito | Descrição | Testes |
+|---|---|---|
+| RF11 | Alterar a quantidade de um produto no carrinho | CT-U39 a CT-U41, CT-A05, CT-M21 |
+| RNF10 | Controle de acesso: área do operador só com login, senha em hash BCrypt e proteção CSRF | CT-S01 a CT-S09, CT-M18 |
+| RNF11 | Persistência: catálogo e pedidos gravados em banco de dados e mantidos depois de reiniciar o servidor | CT-I01 a CT-I08, CT-I10, CT-M20 |
+
 ## API REST
 
 | Método e caminho | O que faz | Acesso |

@@ -14,6 +14,11 @@ Variáveis opcionais:
                             --mercado.promocao.tipo=percentual (para o CT-M10)
     MERCADO_EVIDENCIAS      pasta onde salvar as capturas de tela
 Gera o arquivo resultados.json com o resultado de cada caso.
+
+Requisitos acrescentados na versão web (os demais são os do Documento de Projeto):
+    RF11   alterar a quantidade de um produto no carrinho     (CT-M21)
+    RNF10  controle de acesso: área do operador com login      (CT-M18)
+    RNF11  persistência dos pedidos em banco de dados          (CT-M20, persistencia.py)
 """
 import asyncio
 import json
@@ -363,7 +368,7 @@ async def main():
         await pg.wait_for_function("document.getElementById('erro-login').textContent.length > 0")
         mensagem = await pg.text_content("#erro-login")
         await captura(pg, "CT-M18_login_recusado")
-        registrar("CT-M18", "RNF09 (novo)", foi_para_login and "incorretos" in mensagem,
+        registrar("CT-M18", "RNF10 (novo)", foi_para_login and "incorretos" in mensagem,
                   f"Sem login, a área do operador abre a tela de login; senha errada mostra “{sem_ponto(mensagem)}”.")
 
         # CT-M19 - cupom só para quem fez a compra
@@ -398,7 +403,7 @@ async def main():
             servidor = await pg.evaluate("() => fetch('api/carrinho').then(r => r.json())")
             if not (na_tela == "7" and servidor["itens"][0]["quantidade"] == 7 and "27,93" in subtotal):
                 divergencias.append(f"tela {na_tela} / servidor {servidor['itens'][0]['quantidade']}")
-        registrar("CT-M21", "RF02 (novo)", not divergencias,
+        registrar("CT-M21", "RF11 (novo)", not divergencias,
                   "6 rodadas de 6 cliques rápidos no + com atraso de rede de até 0,4 s: tela e servidor terminaram "
                   "com 7 unidades e R$ 27,93 em todas." if not divergencias else "Divergências: " + "; ".join(divergencias))
 
