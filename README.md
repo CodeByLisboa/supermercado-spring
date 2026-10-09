@@ -17,9 +17,20 @@ banco de dados acessado por **JDBC** e o front-end criado na etapa 8.
 ## Como executar no NetBeans
 
 1. **File > Open Project** e escolha a pasta `SupermercadoSpring` (o NetBeans reconhece o `pom.xml`).
-2. Na primeira vez o NetBeans baixa as bibliotecas do Maven (precisa de internet).
-3. Clique em **Run Project** (F6). O servidor sobe em <http://localhost:8080>.
-4. Área do operador: login `operador`, senha `mercado123` (configurável no `application.properties`).
+2. Clique em **Run Project** (F6). O servidor sobe em <http://localhost:8080>.
+3. Área do operador: login `operador`, senha `mercado123` (configurável no `application.properties`).
+
+### Primeira abertura no NetBeans
+
+Na primeira vez o NetBeans precisa baixar as bibliotecas do Spring (cerca de 150 MB), então o
+computador precisa estar com internet. Se o projeto aparecer como **SupermercadoSpring [unloadable]**:
+
+1. Clique com o botão direito no projeto e escolha **Resolve Project Problems...**
+2. Clique em **Resolve** (o NetBeans faz um *priming build* e baixa o que falta).
+3. Quando terminar, o projeto mostra **Source Packages** e **Test Packages** e já pode ser executado.
+
+Pela linha de comando, o mesmo download é feito com `mvn dependency:go-offline`.
+Testado no Apache NetBeans 31 com JDK 27 e JDK 21 (o projeto usa Java 17 ou superior).
 
 Pela linha de comando: `mvn spring-boot:run`.
 
