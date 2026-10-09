@@ -11,3 +11,8 @@ nbproject/private/
 # Arquivos de sistema
 .DS_Store
 Thumbs.db
+# Saídas dos testes no navegador
+testes-navegador/resultados.json
+testes-navegador/persistencia.json
+testes-navegador/evidencias/
+__pycache__/
