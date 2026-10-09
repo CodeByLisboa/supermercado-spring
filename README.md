@@ -30,7 +30,7 @@ computador precisa estar com internet. Se o projeto aparecer como **Supermercado
 3. Quando terminar, o projeto mostra **Source Packages** e **Test Packages** e já pode ser executado.
 
 Pela linha de comando, o mesmo download é feito com `mvn dependency:go-offline`.
-Testado no Apache NetBeans 31 com JDK 27 e JDK 21 (o projeto usa Java 17 ou superior).
+Testado no Apache NetBeans 31 com JDK 27 no Windows e com Maven e JDK 21 no Linux (o projeto usa Java 17 ou superior).
 
 Pela linha de comando: `mvn spring-boot:run`.
 
@@ -47,6 +47,7 @@ O banco `mercado_do_bairro` e as tabelas são criados sozinhos na primeira execu
   **Set Properties** escreva `spring-boot.run.profiles=mysql` e, em **Env**, `MYSQL_SENHA=suaSenha`.
 
 Endereço, usuário e senha ficam em `src/main/resources/application-mysql.properties`.
+O perfil foi testado com MariaDB 10.11, que usa o mesmo protocolo e o mesmo SQL do MySQL.
 
 ### Trocando a promoção
 
